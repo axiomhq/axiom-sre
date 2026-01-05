@@ -113,7 +113,10 @@ scripts/memory-test --verbose # Show all checks
 
 ## Permissions & Confirmation
 
-**NEVER read `~/.axiom.toml` directly.** It contains secrets. Use `scripts/axiom-query` and `scripts/axiom-api` which read credentials safely.
+**NEVER cat `~/.axiom.toml`** — it contains secrets. Instead use:
+- `scripts/axiom-deployments` — List configured deployments (safe)
+- `scripts/axiom-query` — Run APL queries
+- `scripts/axiom-api` — Make API calls
 
 **Always confirm your understanding.** When you build a mental model from code or queries, confirm it with the user before acting on it.
 

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# List configured Axiom deployments WITHOUT exposing secrets
+# Usage: axiom-deployments
+
+set -euo pipefail
+
+CONFIG_FILE="$HOME/.axiom.toml"
+
+if [[ ! -f "$CONFIG_FILE" ]]; then
+  echo "No Axiom config found at $CONFIG_FILE"
+  exit 1
+fi
+
+echo "Configured deployments:"
+grep -E '^\[deployments\.' "$CONFIG_FILE" | sed 's/\[deployments\.//; s/\]//' | while read -r name; do
+  echo "  - $name"
+done
