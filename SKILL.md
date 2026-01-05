@@ -46,9 +46,10 @@ axiom-sre/
 
 ### First-Time Setup
 
+On first use, run setup (idempotent - skips if memory exists):
+
 ```bash
-mkdir -p ~/.config/amp/memory/axiom-sre
-cp -r ~/.config/amp/skills/axiom-sre/templates/* ~/.config/amp/memory/axiom-sre/
+scripts/setup
 ```
 
 ### During Investigations

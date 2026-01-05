@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Setup axiom-sre memory system
-# Usage: scripts/setup [--project]
+# Usage: scripts/setup [--project] [--force]
 #   --project  Use project-local memory (.agents/memory/axiom-sre)
+#   --force    Overwrite existing memory without prompting
 #   default    Use global memory (~/.config/amp/memory/axiom-sre)
 
 set -euo pipefail
@@ -10,7 +11,17 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SKILL_DIR="$(dirname "$SCRIPT_DIR")"
 TEMPLATES_DIR="$SKILL_DIR/templates"
 
-if [[ "${1:-}" == "--project" ]]; then
+PROJECT=false
+FORCE=false
+
+for arg in "$@"; do
+  case $arg in
+    --project) PROJECT=true ;;
+    --force) FORCE=true ;;
+  esac
+done
+
+if [[ "$PROJECT" == true ]]; then
   MEMORY_DIR=".agents/memory/axiom-sre"
   echo "Setting up project-local memory at $MEMORY_DIR"
 else
@@ -18,12 +29,9 @@ else
   echo "Setting up global memory at $MEMORY_DIR"
 fi
 
-if [[ -d "$MEMORY_DIR" ]]; then
-  echo "Memory directory already exists: $MEMORY_DIR"
-  read -p "Overwrite? (y/N) " -n 1 -r
-  echo
-  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-    echo "Aborted."
+if [[ -d "$MEMORY_DIR/kb" ]]; then
+  if [[ "$FORCE" != true ]]; then
+    echo "Memory already exists at $MEMORY_DIR"
     exit 0
   fi
 fi
@@ -32,6 +40,3 @@ mkdir -p "$MEMORY_DIR"
 cp -r "$TEMPLATES_DIR"/* "$MEMORY_DIR/"
 
 echo "Done. Memory system initialized at $MEMORY_DIR"
-echo ""
-echo "Files created:"
-find "$MEMORY_DIR" -type f | sed 's|^|  |'
