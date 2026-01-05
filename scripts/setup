@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Setup axiom-sre memory system
+# Usage: scripts/setup [--project]
+#   --project  Use project-local memory (.agents/memory/axiom-sre)
+#   default    Use global memory (~/.config/amp/memory/axiom-sre)
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SKILL_DIR="$(dirname "$SCRIPT_DIR")"
+TEMPLATES_DIR="$SKILL_DIR/templates"
+
+if [[ "${1:-}" == "--project" ]]; then
+  MEMORY_DIR=".agents/memory/axiom-sre"
+  echo "Setting up project-local memory at $MEMORY_DIR"
+else
+  MEMORY_DIR="$HOME/.config/amp/memory/axiom-sre"
+  echo "Setting up global memory at $MEMORY_DIR"
+fi
+
+if [[ -d "$MEMORY_DIR" ]]; then
+  echo "Memory directory already exists: $MEMORY_DIR"
+  read -p "Overwrite? (y/N) " -n 1 -r
+  echo
+  if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo "Aborted."
+    exit 0
+  fi
+fi
+
+mkdir -p "$MEMORY_DIR"
+cp -r "$TEMPLATES_DIR"/* "$MEMORY_DIR/"
+
+echo "Done. Memory system initialized at $MEMORY_DIR"
+echo ""
+echo "Files created:"
+find "$MEMORY_DIR" -type f | sed 's|^|  |'

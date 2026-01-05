@@ -22,7 +22,16 @@ Clone or copy to your skills directory and reference in your agent config.
 
 ## Setup
 
-### 1. Axiom Credentials (optional)
+### 1. Memory System
+
+Run the setup script to initialize the memory system:
+
+```bash
+scripts/setup           # Global memory (~/.config/amp/memory/axiom-sre)
+scripts/setup --project # Project-local memory (.agents/memory/axiom-sre)
+```
+
+### 2. Axiom Credentials (optional)
 
 Create `~/.axiom.toml` with your Axiom deployments:
 
@@ -36,22 +45,6 @@ org_id = "your-org-id"
 url = "https://api.axiom.co"
 token = "xaat-your-token-here"
 org_id = "your-org-id"
-```
-
-### 2. Memory System
-
-First-time setup to enable the learning memory system:
-
-```bash
-mkdir -p ~/.config/amp/memory/axiom-sre
-cp -r templates/* ~/.config/amp/memory/axiom-sre/
-```
-
-Or for project-specific memory:
-
-```bash
-mkdir -p .agents/memory/axiom-sre
-cp -r templates/* .agents/memory/axiom-sre/
 ```
 
 ## What's Included
