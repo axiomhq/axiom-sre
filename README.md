@@ -58,13 +58,18 @@ It provides:
 
 ## Memory System
 
-The skill maintains persistent memory across investigations:
+The skill learns from every investigation. You don't need to manage it - the agent automatically:
 
-- **journal/** — Append-only capture during incidents
-- **kb/** — Curated knowledge (facts, patterns, queries, incidents)
-- **archive/** — Old entries preserved for reference
+- **Captures** observations and queries during incidents
+- **Remembers** what worked (and what didn't)
+- **Applies** past learnings to future investigations
+- **Consolidates** knowledge over time
 
-Memory is AI-driven: the agent captures observations, promotes valuable learnings, and consolidates over time.
+Memory persists at `~/.config/amp/memory/axiom-sre/` (global) or `.agents/memory/axiom-sre/` (project-local).
+
+**Optional:** You can seed the knowledge base with your own facts:
+- Edit `kb/facts.md` to add team contacts, Slack channels, etc.
+- Edit `kb/integrations.md` to add database connections, API endpoints
 
 ## License
 
