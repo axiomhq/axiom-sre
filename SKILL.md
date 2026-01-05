@@ -300,9 +300,11 @@ Response: `jq '.tables[0].columns'` extracts column data.
 - Limit results — use `take 10` for debugging, not default 1000
 - `pack(*)` is memory-heavy on wide datasets — pack specific fields instead
 
-**Reference files:** `reference/apl-operators.md`, `reference/apl-functions.md`
+**Reference files:**
+- `reference/api-capabilities.md` — All 70+ API endpoints (what you can do)
+- `reference/apl-operators.md` — APL operators summary
+- `reference/apl-functions.md` — APL functions summary
 
-**For complete API details:** Fetch from Axiom docs when needed:
+**For implementation details:** Fetch from Axiom docs when needed:
 - APL reference: https://axiom.co/docs/apl/introduction
 - REST API: https://axiom.co/docs/restapi/introduction
-- Query API: https://axiom.co/docs/restapi/query
