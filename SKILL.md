@@ -52,16 +52,21 @@ On first use, run setup (idempotent - skips if memory exists):
 scripts/setup
 ```
 
-### When to Record Memory
+### Learning
 
-**Always record when:**
-- User says "remember this", "save this", "add to memory"
-- A query or approach found the root cause
-- User corrects you — record what didn't work and what did
-- You discover a new failure pattern or useful query
-- Investigation/debugging session completes successfully
+**You are always learning.** Every debugging session is an opportunity to get smarter.
 
-**Be proactive:** Watch for learnings throughout any debugging session. If the user shows you something that works better, record it.
+**Automatic learning (no user prompt needed):**
+- Query found root cause → record to `kb/queries.md`
+- New failure pattern discovered → record to `kb/patterns.md`
+- User corrects you → record what didn't work AND what did
+- Debugging session succeeds → summarize learnings to `kb/incidents.md`
+- You learn a useful fact → record to `kb/facts.md`
+
+**User-triggered recording:**
+- "Remember this", "save this", "add to memory" → record immediately
+
+**Be proactive:** Don't wait to be asked. If something is worth remembering, record it. If the user shows you a better way, record both the wrong approach and the correction.
 
 ### During Investigations
 
