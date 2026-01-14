@@ -56,14 +56,25 @@ Three-tier memory with automatic merging. All tiers use identical structure.
 
 ### Reading Memory
 
-Before investigating, read all tiers. The agent merges entries and tags by source:
-```
-[org] Primary incident channel: #sre-incidents
-[org] This service uses dataset: orders-logs
-[personal] I prefer 5m time bins for debugging
+Before investigating, read all memory tiers:
+
+```bash
+# Personal tier
+cat ~/.config/amp/memory/personal/axiom-sre/kb/*.md
+
+# All org tiers (read each org that exists)
+for org in ~/.config/amp/memory/orgs/*/axiom-sre/kb; do
+  cat "$org"/*.md 2>/dev/null
+done
 ```
 
-If same entry exists in multiple tiers: Personal > Org.
+When displaying entries, tag by source tier so user knows origin:
+```
+[org:axiom] Connection pool pattern: check for leaked connections...
+[personal] I prefer 5m time bins for latency analysis
+```
+
+If same entry exists in multiple tiers: Personal overrides Org.
 
 ### Writing Memory
 
@@ -97,19 +108,10 @@ scripts/mem-sync
 scripts/mem-doctor
 ```
 
-### Org Detection
-
-The agent detects which org to use:
-1. **Explicit:** `.agents/config.yaml` with `org: axiom`
-2. **Pattern match:** Git remote matched against `~/.config/amp/orgs.yaml`
-3. **Default org:** If configured in orgs.yaml
-
 ### Directory Structure
 
 ```
-~/.config/amp/
-├── orgs.yaml                           # Org registry
-└── memory/
+~/.config/amp/memory/
     ├── personal/axiom-sre/             # Personal tier
     │   ├── kb/
     │   │   ├── facts.md

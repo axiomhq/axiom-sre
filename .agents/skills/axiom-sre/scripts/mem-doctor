@@ -7,7 +7,6 @@ set -euo pipefail
 SKILL_NAME="axiom-sre"
 PERSONAL_DIR="$HOME/.config/amp/memory/personal/$SKILL_NAME"
 ORGS_DIR="$HOME/.config/amp/memory/orgs"
-ORGS_CONFIG="$HOME/.config/amp/orgs.yaml"
 
 # Legacy path
 LEGACY_DIR="$HOME/.config/amp/memory/$SKILL_NAME"
@@ -62,17 +61,6 @@ fi
 if [[ -d "$LEGACY_DIR/kb" ]]; then
   check_warn "Legacy memory at $LEGACY_DIR (should migrate)"
   echo "   Run: scripts/setup (will auto-migrate)"
-fi
-
-echo ""
-
-# --- Check orgs config ---
-echo "Orgs Config:"
-if [[ -f "$ORGS_CONFIG" ]]; then
-  check_ok "Exists at $ORGS_CONFIG"
-else
-  check_warn "Not found at $ORGS_CONFIG"
-  echo "   Run: scripts/setup"
 fi
 
 echo ""

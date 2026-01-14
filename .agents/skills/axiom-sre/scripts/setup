@@ -14,7 +14,6 @@ SKILL_NAME="axiom-sre"
 # Paths
 PERSONAL_DIR="$HOME/.config/amp/memory/personal/$SKILL_NAME"
 ORGS_DIR="$HOME/.config/amp/memory/orgs"
-ORGS_CONFIG="$HOME/.config/amp/orgs.yaml"
 
 # Legacy path (for migration)
 LEGACY_DIR="$HOME/.config/amp/memory/$SKILL_NAME"
@@ -56,32 +55,8 @@ if [[ ! -d "$PERSONAL_DIR/kb" ]]; then
   echo "✓ Personal memory initialized"
 fi
 
-# --- Orgs config ---
+# --- Orgs directory ---
 mkdir -p "$ORGS_DIR"
-
-if [[ ! -f "$ORGS_CONFIG" ]]; then
-  echo "Creating orgs config at $ORGS_CONFIG"
-  cat > "$ORGS_CONFIG" << 'EOF'
-# Org memory configuration
-# Add orgs with: scripts/org-add <name> <git-repo-url>
-#
-# Example:
-#   default_org: mycompany
-#
-#   orgs:
-#     mycompany:
-#       repo: git@github.com:mycompany/sre-memory.git
-#       match:
-#         - "github.com/mycompany/*"
-
-default_org: null
-
-orgs: {}
-EOF
-  echo "✓ Orgs config created"
-else
-  echo "✓ Orgs config exists at $ORGS_CONFIG"
-fi
 
 echo ""
 echo "=== Setup Complete ==="
