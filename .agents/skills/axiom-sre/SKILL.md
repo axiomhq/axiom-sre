@@ -421,6 +421,11 @@ After running `axiom-query`, generate the corresponding link with `axiom-link` u
 
 **SRE aggregations:** `spotlight()`, `percentiles_array()`, `topk()`, `histogram()`, `rate()`
 
+**Field Escaping (CRITICAL):**
+- Fields with special chars (dots in k8s labels) need escaping: `['kubernetes.node_labels.nodepool\\.axiom\\.co/name']`
+- In bash, use `$'...'` with quadruple backslashes: `$'[\'field\\\\.name\']'`
+- See `reference/apl-operators.md` for full escaping guide
+
 **Performance Tips:**
 - Time filter FIRST — always filter `_time` before other conditions
 - **Sample before filtering** — use `| distinct ['field']` to see variety of values before building predicates

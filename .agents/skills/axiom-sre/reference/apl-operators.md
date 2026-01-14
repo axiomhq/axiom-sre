@@ -1,5 +1,58 @@
 # APL Operators Reference (Compressed)
 
+## Field Name Escaping (CRITICAL)
+
+Field names with special characters (`.`, `/`, `-`) require escaping.
+
+**Schema shows escaped names:**
+```
+kubernetes.node_labels.karpenter\.sh/nodepool
+kubernetes.node_labels.nodepool\.axiom\.co/name
+```
+
+**APL syntax:** Use `['field.name']` with `\\.` to escape dots within special field names:
+```apl
+// Double backslash escapes dots in field names with special chars
+['k8s-logs-prod'] | distinct ['kubernetes.node_labels.nodepool\\.axiom\\.co/name']
+['k8s-logs-prod'] | distinct ['kubernetes.node_labels.karpenter\\.sh/nodepool']
+```
+
+**Running from shell - use heredoc (RECOMMENDED):**
+```bash
+# Heredoc with quoted 'EOF' prevents shell expansion - only need \\. 
+axiom-query staging - << 'EOF'
+['k8s-logs-prod'] | distinct ['kubernetes.node_labels.nodepool\\.axiom\\.co/name']
+EOF
+```
+
+**Alternative - stdin:**
+```bash
+# Pipe with $'...' - need \\\\ (quadruple) because shell + APL both escape
+echo $'[\'k8s-logs-prod\'] | distinct [\'kubernetes.node_labels.nodepool\\\\.axiom\\\\.co/name\']' | axiom-query staging -
+```
+
+**Alternative - file:**
+```bash
+# Write query to file (only need \\.), then use -f
+echo "['k8s-logs-prod'] | distinct ['kubernetes.node_labels.nodepool\\.axiom\\.co/name']" > /tmp/q.apl
+axiom-query staging -f /tmp/q.apl
+```
+
+**Map field access:** For nested maps, use bracket notation:
+```apl
+// Access nested map fields
+['dataset'] | extend value = ['attributes.custom']['key']
+['dataset'] | extend value = tostring(['attributes']['nested.key'])
+```
+
+**Common escaped fields in k8s-logs-prod:**
+- `kubernetes.node_labels.karpenter\\.sh/nodepool`
+- `kubernetes.node_labels.nodepool\\.axiom\\.co/name`
+- `kubernetes.labels.app\\.kubernetes\\.io/name`
+- `kubernetes.labels.db\\.axiom\\.co/zone`
+
+---
+
 ## Time Range (CRITICAL)
 **ALWAYS use `between` first** — enables time-based indexing:
 ```apl
