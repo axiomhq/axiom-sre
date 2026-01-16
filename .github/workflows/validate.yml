@@ -1,0 +1,18 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  frontmatter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: validate SKILL.md frontmatter
+        run: |
+          chmod +x scripts/validate-frontmatter.sh
+          ./scripts/validate-frontmatter.sh .agents/skills/axiom-sre/SKILL.md
